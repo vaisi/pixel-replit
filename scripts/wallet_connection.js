@@ -1,16 +1,4 @@
-import { log, getAddress } from "./utilities.js";
-
-//const algosdk = window.algosdk;
-const baseServer = 'https://testnet-algorand.api.purestake.io/ps2'
-const port = '';
-const token = { 'X-API-Key': 'Iv8c1TBdZ05o30S0zaDAf1mFTYLGOgNe3glPkD2Z' }
-
-
-const { Algodv2, kmd } = algosdk;
-
-const algodClient = new algosdk.Algodv2(token, baseServer, port);
-let indexerClient = new algosdk.Indexer(token, baseServer, port);
-
+import { algodClient, log, getAddress } from "./utilities.js";
 
 const connectWallet = async () => {
   try {
@@ -37,12 +25,10 @@ const showAddress = async () => {
   log(`Address: ${address}`);
 };
 
-
-
 async function showAccountInformation() {
   try {
     const address = await getAddress();
-    log(`Account info for address  ${address}`);  
+    log(`Account info for address  ${address}`);
     const accountInfo = await algodClient.accountInformation(address).do();
 
     log('Account information:');
