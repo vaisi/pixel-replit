@@ -16,7 +16,7 @@ io.on("connection", (socket) => {
 
   socket.on("paint", (data) => {
     socket.broadcast.emit("paint", data);
-    console.log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
+    console.log("Broadcasted: A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
   });
 
   socket.on("disconnect", () => {

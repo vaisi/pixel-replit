@@ -101,3 +101,4 @@ function updatePaintedCellsCount() {
   paintedCells++;
   document.getElementById('painted-cells-count').innerText = `Painted cells: ${paintedCells}`;
 }
+
