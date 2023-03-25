@@ -1,3 +1,5 @@
+import { log } from "./utilities.js";
+
 const grid = document.getElementById("grid");
 const output = document.getElementById("output");
 
@@ -76,7 +78,12 @@ cells.forEach((cell) => {
 });
 
 // we also need a socket, to emit a signal when a pixel is being painted
+let socketConnected = false;
 const socket = io();
+
+socket.on("connect", () => {
+  socketConnected = true;
+});
 
 // Add click event listener to the "Paint pixel" button
 paintPixelBtn.addEventListener("click", () => {
@@ -88,8 +95,11 @@ paintPixelBtn.addEventListener("click", () => {
     paintPixelBtn.disabled = true;
 
     // Emit a "paint" event to the server with the cell index and color
+
     const index = Array.from(cells).indexOf(selectedCell);
-    socket.emit("paint", { index, color: selectedColor });
+    if (socketConnected) {
+      socket.emit("paint", { index, color: selectedColor });
+    }
   }
   updatePaintedCellsCount();
 });
@@ -102,3 +112,7 @@ function updatePaintedCellsCount() {
   document.getElementById('painted-cells-count').innerText = `Painted cells: ${paintedCells}`;
 }
 
+socket.on("paint", (data) => {
+  log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
+  cells[data.index].style.backgroundColor = data.color;
+});

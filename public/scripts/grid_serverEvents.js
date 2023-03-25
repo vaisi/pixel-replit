@@ -2,6 +2,8 @@ const cells = document.querySelectorAll(".cell");
 
 const socket = io();
 
+/*
+
 socket.on("connection", () => {
   log("Connected to the server");
 
@@ -10,3 +12,5 @@ socket.on("connection", () => {
     cells[data.index].style.backgroundColor = data.color;
   });
 });
+*/
+
