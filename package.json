@@ -7,13 +7,12 @@
   "name": "untidytechnologicalconnection",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
+  "scripts": {    
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "description": ""
 }
-
-<script src="/socket.io/socket.io.js"></script>
 
