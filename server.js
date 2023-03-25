@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const path = require("path");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -16,6 +16,7 @@ io.on("connection", (socket) => {
 
   socket.on("paint", (data) => {
     socket.broadcast.emit("paint", data);
+    console.log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
   });
 
   socket.on("disconnect", () => {
