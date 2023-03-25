@@ -23,19 +23,23 @@ async function sendTransaction() {
       "genesisID": params.genesisID,
       "genesisHash": params.genesisHash,
       //type: 'pay',
-      
+
     };
 
-    log(`Trying to executa transaction from ${sender} to ${recipient}`);
-    const signedTxn = algosdk.signTransaction(txn, account.sk);
-    const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
+    log(`Trying to execute transaction from ${sender} to ${recipient}`);
+
+
+    const secretKey = await AlgoSigner.algodSecretKey({ ledger: 'TestNet', address: account.address });
+    log(secretKey);
+    const signedTxn = algosdk.signTransaction(txn, secretKey);
+    console.log('Signed transaction:', signedTxn);
+
+    const tx = await algodClient.sendRawTransaction(signedTxn.blob64).do();
     log('Transaction ID:', tx.txId);
   } catch (err) {
     log('Error:', err);
   }
 }
-
-
 
 const mintNFTBtn = document.getElementById("mint-nft-btn");
 mintNFTBtn.addEventListener("click", sendTransaction);

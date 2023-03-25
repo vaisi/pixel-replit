@@ -1,3 +1,6 @@
+
+run = "node server.js"
+
 hidden=[".config"]
 
 # hosting is currently hardcoded for this language

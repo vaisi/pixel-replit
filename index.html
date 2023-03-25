@@ -2,17 +2,20 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AlgoSigner Web App</title>
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/grid.css">
+
 </head>
+
 <body>
-  <h1>Pixel</h1>    
+  <h1>Pixel</h1>
   <!-- GRID -->
   <div class="color-palette-container"></div>
-  <button id="paint-pixel-btn" disabled>Paint pixel</button>  
+  <button id="paint-pixel-btn" disabled>Paint pixel</button>
   <div class="container">
     <div id="grid" class="grid"></div>
     <!-- Add the following line below the grid div -->
@@ -25,14 +28,16 @@
   <button id="balance-btn">Show Balance</button>
   <button id="mint-nft-btn">Mint NFT (1 Algo)</button>
   <button id="disconnect-wallet-btn">Disconnect Wallet</button>
-  
+
   <textarea id="output" rows="10" cols="50"></textarea>
 
+  <script src="scripts/socket.io.min.js"></script>
   <script src="scripts/algosdk.min.js"></script>
   <script type="module" src="scripts/utilities.js"></script>
   <script type="module" src="scripts/wallet_connection.js"></script>
   <script type="module" src="scripts/test_transaction.js"></script>
   <script type="module" src="scripts/mint_nft.js"></script>
+  <script src="scripts/grid_design.js"></script>
   <script src="scripts/grid_handling.js"></script>
 </body>
 
