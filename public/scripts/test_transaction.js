@@ -1,6 +1,11 @@
 import { log } from "./utilities.js";
 import { algodClient, getAddress } from "./algoUtils.js";
 
+//import { encode } from './msgpack.min.js';
+//import msgpack from '@msgpack/msgpack';
+import * as msgpack from "https://cdn.jsdelivr.net/npm/@msgpack/msgpack@3.0.0-beta2/dist/index.js";
+
+
 const MICROALGO = 1000000;
 
 let signedTxn;
@@ -28,17 +33,20 @@ async function sendTransaction() {
 
     // Use the AlgoSigner encoding library to make the transactions base64
     log("1");
-    let txn_b64 = AlgoSigner.encoding.msgpackToBase64(_txn.toByte());    
-    let signedTxn = await AlgoSigner.signTxn([{ txn: txn_b64 }]);
-    log("3 signedTxn " + signedTxn);
-
+    let txn_b64 = AlgoSigner.encoding.msgpackToBase64(_txn.toByte());
+    let signedTxn = await AlgoSigner.signTxn([{ txn: txn_b64 }]);    
     const encoder = new TextEncoder();
-    const signedTxnByteArray = encoder.encode(signedTxn);
     
-    log("3 signedTxn " + signedTxnByteArray);
+    log(typeof signedTxn);
+    const signedTxnByteArray = msgpack.encode(signedTxn) ;
+    log(`Type of signedTxnByteArray after conversion: ${typeof signedTxnByteArray}`);
+//    //log("3 signedTxn " + signedTxnByteArray);
+
+    
+    log("signedTxnByteArray: " + signedTxnByteArray);
     const { txId } = await algodClient.sendRawTransaction(signedTxnByteArray).do();
     log("4");
-    const result = await algosdk.waitForConfirmation(algodClient, txId, 4);
+    const result = await algosdk.waitForConfirmation(algodClient, txId, 10);
 
     log(result);
     log(`Transaction Information: ${result.txn}`);
