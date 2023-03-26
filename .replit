@@ -1,5 +1,5 @@
 # todo uncomment to start server automatically
-# run = "node server.js"
+run = "node server.js"
 
 hidden=[".config"]
 
