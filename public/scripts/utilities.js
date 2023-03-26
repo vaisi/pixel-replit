@@ -19,8 +19,9 @@ export const log = (...messages) => {
   for (let i = 0; i < messages.length; i++) {
     message += messages[i] + ' ';
   }
-  // const output = document.getElementById("output");
-  document.getElementById('output').value += message.trim() + '\n';
+  const output = document.getElementById("output");
+  output.value += message.trim() + '\n';
+  output.scrollTop = output.scrollHeight;
 };
 
 

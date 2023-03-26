@@ -19,12 +19,11 @@ colorPalette.className = 'color-palette';
 // Generate a random neon color palette
 for (let i = 0; i < 6; i++) {
   const color = randomNeonColor();
-  if (i === 0) selectedColor = color;
-
   const colorElement = document.createElement('div');
   colorElement.className = 'color';
   colorElement.style.backgroundColor = color;
   colorPalette.appendChild(colorElement);
+  if (i === 0) selectColorFromPalette(colorElement);;
 
   // Add click event listener to select color
   colorElement.addEventListener('click', () => {
@@ -32,8 +31,12 @@ for (let i = 0; i < 6; i++) {
     if (previousSelectedColor) {
       previousSelectedColor.classList.remove('selected-color');
     }
-
-    colorElement.classList.add('selected-color');
-    selectedColor = color;
+    selectColorFromPalette(colorElement);
   });
 }
+
+function selectColorFromPalette(colorElement) {
+  colorElement.classList.add('selected-color');
+  selectedColor = colorElement.style.backgroundColor;
+}
+
