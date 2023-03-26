@@ -1,6 +1,6 @@
 import { log, CELL_DEFAULT_COLOR } from "./utilities.js";
 import { socket, socketConnected } from "./gridHandleServerEvents.js";
-import { selectedColor } from "./grid_client.js";
+import { selectedColor } from "./colorPalette.js";
 
 const cells = document.querySelectorAll(".cell");
 const paintPixelBtn = document.getElementById('paint-pixel-btn');
@@ -23,14 +23,14 @@ function handlePaintPixelClick() {
 paintPixelBtn.addEventListener("click", handlePaintPixelClick);
 
 
-function removeSelectionView(cell) {  
+function removeSelectionView(cell) {
   if (cell) {
     cell.classList.remove("glow");
     cell.style.border = '';
   }
 }
 
-function addSelectionView(cell) {  
+function addSelectionView(cell) {
   if (cell) {
     cell.classList.add("glow");
     cell.style.border = '2px solid #FFC107';
@@ -48,7 +48,7 @@ function addSelectionView(cell) {
 cells.forEach((cell) => {
   cell.addEventListener("click", () => {
     const previousCell = document.querySelector(".glow");
-    removeSelectionView(previousCell);    
-    addSelectionView(cell);   
+    removeSelectionView(previousCell);
+    addSelectionView(cell);
   });
 });
