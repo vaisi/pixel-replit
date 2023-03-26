@@ -1,4 +1,6 @@
-import { algodClient, log, getAddress } from "./utilities.js";
+import { log } from "./utilities.js";
+import { algodClient, getAddress } from "./algoUtils.js";
+
 
 const connectWallet = async () => {
   try {
