@@ -1,6 +1,7 @@
 import { log } from "./utilities.js";
 import { algodClient, getAddress } from "./algoUtils.js";
 
+const MICROALGO = 1000000;
 
 async function sendTransaction() {
   try {
@@ -9,7 +10,7 @@ async function sendTransaction() {
     const params = await algodClient.getTransactionParams().do();
     const sender = account.address;
     const recipient = "R42P25CWZ23WITFSQHGZTYCACIUIZJVLQBKW57MB727QFP723NRBOJD5AM";
-    const amount = Math.floor(Math.random() * 100000);
+    const amount = 1 * MICROALGO;
     const note = new TextEncoder().encode('Hello, Algorand!');
 
     const encoder = new TextEncoder();
@@ -45,6 +46,8 @@ async function sendTransaction() {
         log(`${key}:`, d[key]);
       }
     }).catch((e) => { log(e); });
+
+    log("checking if amout was received by recepient...");
 
   } catch (err) {
     log('Error:', err);

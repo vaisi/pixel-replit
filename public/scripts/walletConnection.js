@@ -28,21 +28,33 @@ const showAddress = async () => {
   log(`Address: ${address}`);
 };
 
+async function showBalance(address){
+    try {    
+    const accountInfo = await algodClient.accountInformation(address).do();
+    const algoBalance = accountInfo.amount / 1000000;
+    log(`Account balance: ${algoBalance} Algos`);
+  } catch (error) {
+    log('Error getting account information:', error);
+  }
+}
+  
+
 async function showAccountInformation() {
   try {
     const address = await getAddress();
     log(`Account info for address  ${address}`);
     const accountInfo = await algodClient.accountInformation(address).do();
-
-    const algoBalance = accountInfo.amount / 1000000;
-    log(`Account balance: ${algoBalance} Algos`);
-
-    //for (const key in accountInfo) {
-    //  log(`${key}:`, accountInfo[key]);
-    //}
+    for (const key in accountInfo) {
+      log(`${key}:`, accountInfo[key]);
+    }
   } catch (error) {
     log('Error getting account information:', error);
   }
+}
+
+async function showUserBalance(){
+  const address = await getAddress();
+  showBalance(address);  
 }
 
 const connectWalletBtn = document.getElementById("connect-wallet-btn");
@@ -56,4 +68,4 @@ showAddressBtn.addEventListener("click", showAddress);
 
 
 const balanceBtn = document.getElementById("balance-btn");
-balanceBtn.addEventListener("click", showAccountInformation);
+balanceBtn.addEventListener("click", showUserBalance);
