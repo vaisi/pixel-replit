@@ -34,10 +34,12 @@ async function showAccountInformation() {
     log(`Account info for address  ${address}`);
     const accountInfo = await algodClient.accountInformation(address).do();
 
-    log('Account information:');
-    for (const key in accountInfo) {
-      log(`${key}:`, accountInfo[key]);
-    }
+    const algoBalance = accountInfo.amount / 1000000;
+    log(`Account balance: ${algoBalance} Algos`);
+
+    //for (const key in accountInfo) {
+    //  log(`${key}:`, accountInfo[key]);
+    //}
   } catch (error) {
     log('Error getting account information:', error);
   }
