@@ -1,4 +1,5 @@
-const CELL_DEFAULT_COLOR = "#191a1b";
+// todo move to a common place
+const CELL_DEFAULT_COLOR = 'rgb(25, 26, 27)';
 
 let gridState = {
   rows: 8,

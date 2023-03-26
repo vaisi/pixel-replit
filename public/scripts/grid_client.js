@@ -1,6 +1,6 @@
 import { log } from "./utilities.js";
 // todo move to a common place
-const CELL_DEFAULT_COLOR = "#191a1b";
+const CELL_DEFAULT_COLOR = 'rgb(25, 26, 27)';
 
 
 const grid = document.getElementById("grid");
@@ -19,6 +19,7 @@ for (let row = 0; row < ROWS; row++) {
     cell.style.width = `${CELL_SIZE}px`;
     cell.style.height = `${CELL_SIZE}px`;
     cell.style.margin = `${CELL_GAP}px`;
+    cell.style.backgroundColor = CELL_DEFAULT_COLOR;
     grid.appendChild(cell);
   }
 }
@@ -74,9 +75,17 @@ cells.forEach((cell) => {
       selectedCell.style.border = ''; // Remove the glowing border from the previous selected cell
     }
 
+    // Add a glowing border to the selected cell
     cell.classList.add("glow");
-    cell.style.border = '2px solid #FFC107'; // Add a glowing border to the selected cell
-    paintPixelBtn.disabled = false;
+    cell.style.border = '2px solid #FFC107';
+    // if already painted, disable painting
+    log("selected cell color : " + cell.style.backgroundColor);
+    if (cell.style.backgroundColor === CELL_DEFAULT_COLOR){    
+      paintPixelBtn.disabled = false;
+    }
+    else{
+      paintPixelBtn.disabled = true;
+    }
   });
 });
 
@@ -92,10 +101,11 @@ socket.on("connect", () => {
 paintPixelBtn.addEventListener("click", () => {
   const selectedCell = document.querySelector(".glow");
   if (selectedCell) {
-    selectedCell.classList.remove("glow");
+    
+    //selectedCell.classList.remove("glow");
     selectedCell.style.backgroundColor = selectedColor;
-    selectedCell.style.border = ''; // Remove the glowing border after painting the cell
-    paintPixelBtn.disabled = true;
+    //selectedCell.style.border = '';
+    paintPixelBtn.disabled = true;    
 
     const index = Array.from(cells).indexOf(selectedCell);
     if (socketConnected) {
