@@ -22,16 +22,16 @@ function handlePaintPixelClick() {
 // Add click event listener to the "Paint pixel" button
 paintPixelBtn.addEventListener("click", handlePaintPixelClick);
 
-// Add click event listener to each cell
-cells.forEach((cell) => {
-  cell.addEventListener("click", () => {
-    const selectedCell = document.querySelector(".glow");
-    if (selectedCell) {
-      selectedCell.classList.remove("glow");
-      selectedCell.style.border = '';
-    }
 
-    // Add a glowing border to the selected cell
+function removeSelectionView(cell) {  
+  if (cell) {
+    cell.classList.remove("glow");
+    cell.style.border = '';
+  }
+}
+
+function addSelectionView(cell) {  
+  if (cell) {
     cell.classList.add("glow");
     cell.style.border = '2px solid #FFC107';
     // if already painted, disable painting
@@ -41,5 +41,14 @@ cells.forEach((cell) => {
     else {
       paintPixelBtn.disabled = true;
     }
+  }
+}
+
+// Add click event listener to each cell
+cells.forEach((cell) => {
+  cell.addEventListener("click", () => {
+    const previousCell = document.querySelector(".glow");
+    removeSelectionView(previousCell);    
+    addSelectionView(cell);   
   });
 });
