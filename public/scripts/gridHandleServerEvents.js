@@ -19,7 +19,7 @@ socket.on("updateGridState", (serverGridState) => {
   updatePaintedCellsCount(serverGridState.paintedCellsCounter);
 });
 
-socket.on("paint", (data) => {
+socket.on("updatePixel", (data) => {
   log("A user painted pixel: " + data.index);
   cells[data.index].style.backgroundColor = data.color;
   updatePaintedCellsCount(data.paintedCellsCounter);
