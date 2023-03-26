@@ -26,9 +26,7 @@ io.on("connection", (socket) => {
 
     gridState = updateGridState(gridState, data.index, data.color);
     console.log("Broadcasting new grid state");
-    console.log("cells : " + gridState.cells);
-    console.log("counter : " + gridState.paintedCellsCounter);
-    socket.broadcast.emit("updateGridState", { cells: gridState.cells, paintedCellsCounter: gridState.paintedCellsCounter });
+    io.emit("updateGridState", { cells: gridState.cells, paintedCellsCounter: gridState.paintedCellsCounter });
   });
 
   socket.on("disconnect", () => {
