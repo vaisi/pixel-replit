@@ -79,7 +79,6 @@ cells.forEach((cell) => {
     cell.classList.add("glow");
     cell.style.border = '2px solid #FFC107';
     // if already painted, disable painting
-    log("selected cell color : " + cell.style.backgroundColor);
     if (cell.style.backgroundColor === CELL_DEFAULT_COLOR){    
       paintPixelBtn.disabled = false;
     }
@@ -125,6 +124,11 @@ socket.on("updateGridState", (serverGridState) => {
   updatePaintedCellsCount(serverGridState.paintedCellsCounter);
 });
 
+socket.on("paint", (data) => {
+  log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
+  cells[data.index].style.backgroundColor = data.color;
+  updatePaintedCellsCount(data.paintedCellsCounter);
+});
 
 
 function updateGrid(updatedCells) {
@@ -134,6 +138,10 @@ function updateGrid(updatedCells) {
   }
 
   const cells = document.querySelectorAll(".cell");
+  if(!cells){
+    log("Invalid state: client grid cells not initialized");
+  }
+    
   for (let i = 0; i < updatedCells.length; i++) {
     if (updatedCells[i]) {
       cells[i].style.backgroundColor = updatedCells[i];
@@ -144,9 +152,3 @@ function updateGrid(updatedCells) {
 function updatePaintedCellsCount(counter) {
   document.getElementById('painted-cells-count').innerText = `Painted cells: ${counter}`;
 };
-
-socket.on("paint", (data) => {
-  log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
-  cells[data.index].style.backgroundColor = data.color;
-  updatePaintedCellsCount(data.paintedCellsCounter);
-});
