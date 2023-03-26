@@ -1,4 +1,7 @@
 import { log } from "./utilities.js";
+// todo move to a common place
+const CELL_DEFAULT_COLOR = "#191a1b";
+
 
 const grid = document.getElementById("grid");
 const output = document.getElementById("output");
@@ -101,13 +104,6 @@ paintPixelBtn.addEventListener("click", () => {
   }
 });
 
-// a variable to cache the gridState received from server
-/* let gridState = {
-  rows: 8,
-  columns: 8,
-  cells: Array(8 * 8).fill(null),
-  paintedCellsCounter: 0
-}; */
 
 socket.on("updateGridState", (serverGridState) => {
   log("Server updated the grid state");
@@ -126,7 +122,7 @@ function updateGrid(updatedCells) {
     log("Invalid input: cells array is missing");
     return;
   }
-  
+
   const cells = document.querySelectorAll(".cell");
   for (let i = 0; i < updatedCells.length; i++) {
     if (updatedCells[i]) {
@@ -142,4 +138,5 @@ function updatePaintedCellsCount(counter) {
 socket.on("paint", (data) => {
   log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
   cells[data.index].style.backgroundColor = data.color;
+  updatePaintedCellsCount(data.paintedCellsCounter);
 });

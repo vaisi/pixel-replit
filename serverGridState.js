@@ -1,7 +1,9 @@
+const CELL_DEFAULT_COLOR = "#191a1b";
+
 let gridState = {
   rows: 8,
   columns: 8,
-  cells: Array(8 * 8).fill("#191a1b"),
+  cells: Array(8 * 8).fill(CELL_DEFAULT_COLOR),
   paintedCellsCounter: 0
 };
 

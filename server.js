@@ -25,8 +25,9 @@ io.on("connection", (socket) => {
     console.log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
 
     gridState = updateGridState(gridState, data.index, data.color);
-    console.log("Broadcasting new grid state");
-    io.emit("updateGridState", { cells: gridState.cells, paintedCellsCounter: gridState.paintedCellsCounter });
+    console.log("Broadcasting only the paint event");
+    io.emit("paint", { index : data.index, color : data.color, paintedCellsCounter : gridState.paintedCellsCounter } );
+    //io.emit("updateGridState", { cells: gridState.cells, paintedCellsCounter: gridState.paintedCellsCounter });
   });
 
   socket.on("disconnect", () => {
