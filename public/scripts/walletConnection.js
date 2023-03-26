@@ -5,7 +5,8 @@ import { algodClient, getAddress } from "./algoUtils.js";
 const connectWallet = async () => {
   try {
     const accounts = await AlgoSigner.connect();
-    log("Connected to AlgoSigner!", accounts);
+    const address = await getAddress();
+    log("Connected with wallet: ", address);
   } catch (error) {
     log(`Failed to connect to AlgoSigner: ${error}`);
   }
@@ -14,7 +15,7 @@ const connectWallet = async () => {
 const disconnectWallet = async () => {
   try {
     await AlgoSigner.disconnect();
-    log("Disconnected wallet from AlgoSigner.");
+    log("Wallet disconnect");
   } catch (error) {
     log("Failed to disconnect wallet from AlgoSigner:", error);
   }
