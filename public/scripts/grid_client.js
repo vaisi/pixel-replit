@@ -77,7 +77,7 @@ cells.forEach((cell) => {
   });
 });
 
-// we also need a socket, to emit a signal when a pixel is being painted
+
 let socketConnected = false;
 const socket = io();
 
@@ -94,23 +94,50 @@ paintPixelBtn.addEventListener("click", () => {
     selectedCell.style.border = ''; // Remove the glowing border after painting the cell
     paintPixelBtn.disabled = true;
 
-    // Emit a "paint" event to the server with the cell index and color
-
     const index = Array.from(cells).indexOf(selectedCell);
     if (socketConnected) {
       socket.emit("paint", { index, color: selectedColor });
     }
   }
-  updatePaintedCellsCount();
+});
+
+// a variable to cache the gridState received from server
+/* let gridState = {
+  rows: 8,
+  columns: 8,
+  cells: Array(8 * 8).fill(null),
+  paintedCellsCounter: 0
+}; */
+
+socket.on("updateGridState", (serverGridState) => {
+  log("Server updated the grid state");
+  if (!serverGridState) {
+    log("Invalid input: serverGridState");
+  }
+
+  updateGrid(serverGridState.cells);
+  updatePaintedCellsCount(serverGridState.paintedCellsCounter);
 });
 
 
-let paintedCells = 0;
 
-function updatePaintedCellsCount() {
-  paintedCells++;
-  document.getElementById('painted-cells-count').innerText = `Painted cells: ${paintedCells}`;
-}
+function updateGrid(updatedCells) {
+  if (!updatedCells) {
+    log("Invalid input: cells array is missing");
+    return;
+  }
+  
+  const cells = document.querySelectorAll(".cell");
+  for (let i = 0; i < updatedCells.length; i++) {
+    if (updatedCells[i]) {
+      cells[i].style.backgroundColor = updatedCells[i];
+    }
+  }
+};
+
+function updatePaintedCellsCount(counter) {
+  document.getElementById('painted-cells-count').innerText = `Painted cells: ${counter}`;
+};
 
 socket.on("paint", (data) => {
   log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
