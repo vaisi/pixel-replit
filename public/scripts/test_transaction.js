@@ -9,12 +9,12 @@ async function sendTransaction() {
     const params = await algodClient.getTransactionParams().do();
     const sender = account.address;
     const recipient = "R42P25CWZ23WITFSQHGZTYCACIUIZJVLQBKW57MB727QFP723NRBOJD5AM";
-    const amount = Math.floor(Math.random() * 1000);
+    const amount = Math.floor(Math.random() * 100000);
     const note = new TextEncoder().encode('Hello, Algorand!');
 
     const encoder = new TextEncoder();
 
-    const txn = {
+    const suggestedTxParams = {
       "from": sender.addr,
       "to": recipient,
       "amount": amount,
@@ -27,16 +27,25 @@ async function sendTransaction() {
 
     };
 
-    log(`Trying to execute transaction from ${sender} to ${recipient}`);
+    log(`Trying to execute transaction from ${sender} to ${recipient} ...`);
 
+    // appIndex: +document.getElementById('app-index').value,
+    const txn = algosdk.makeApplicationNoOpTxnFromObject({
+      from: sender,
+      to: recipient,
+      suggestedParams: { ...suggestedTxParams }
+    });
 
-    const secretKey = await AlgoSigner.algodSecretKey({ ledger: 'TestNet', address: account.address });
-    log(secretKey);
-    const signedTxn = algosdk.signTransaction(txn, secretKey);
-    console.log('Signed transaction:', signedTxn);
+    // Use the AlgoSigner encoding library to make the transactions base64
+    let txn_b64 = AlgoSigner.encoding.msgpackToBase64(txn.toByte());
+    AlgoSigner.signTxn([{ txn: txn_b64 }]).then((d) => {
+      log('Transaction executed successfully:', d);
 
-    const tx = await algodClient.sendRawTransaction(signedTxn.blob64).do();
-    log('Transaction ID:', tx.txId);
+      for (const key in d) {
+        log(`${key}:`, d[key]);
+      }
+    }).catch((e) => { log(e); });
+
   } catch (err) {
     log('Error:', err);
   }

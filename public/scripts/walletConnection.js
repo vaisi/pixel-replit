@@ -14,10 +14,10 @@ const connectWallet = async () => {
 
 const disconnectWallet = async () => {
   try {
-    await AlgoSigner.disconnect();
-    log("Wallet disconnect");
+    algodClient.disconnect();
+    log("Wallet disconnected");
   } catch (error) {
-    log("Failed to disconnect wallet from AlgoSigner:", error);
+    log("Failed to disconnect wallet:", error);
   }
 };
 
