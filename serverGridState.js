@@ -20,7 +20,14 @@ const updateGridState = (gridState, index, color) => {
   return gridState;
 };
 
+const resetGridState = () => {
+  gridState.cells = Array(8 * 8).fill(CELL_DEFAULT_COLOR);
+  gridState.paintedCellsCounter = 0;
+  return gridState;
+}
+
 module.exports = {
   gridState,
-  updateGridState
+  updateGridState,
+  resetGridState
 };

@@ -10,7 +10,7 @@ socket.on("connect", () => {
 });
 
 socket.on("updateGridState", (serverGridState) => {
-  log("Server updated the grid state");
+  log("Server updated the board");
   if (!serverGridState) {
     log("Invalid input: serverGridState");
   }

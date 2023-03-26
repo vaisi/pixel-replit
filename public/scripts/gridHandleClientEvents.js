@@ -52,3 +52,9 @@ cells.forEach((cell) => {
     addSelectionView(cell);
   });
 });
+
+// event listener that sends request to server to reset board
+const resetBoardBtn = document.getElementById("reset-board-btn");
+resetBoardBtn.addEventListener("click", () => {
+  socket.emit("resetBoard");
+});

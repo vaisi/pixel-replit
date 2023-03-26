@@ -8,7 +8,7 @@ const msgpack = require("@msgpack/msgpack");
 
 
 
-let { gridState, updateGridState } = require("./serverGridState");
+let { gridState, updateGridState, resetGridState } = require("./serverGridState");
 
 app.use(express.static(path.join(__dirname, "public")));
 //app.use(express.static(path.join(__dirname + '/node_modules/@msgpack/msgpack/dist.es5+umd')));
@@ -28,6 +28,13 @@ io.on("connection", (socket) => {
     console.log("Broadcasting the paint event");
     io.emit("updatePixel", { index: data.index, color: data.color, paintedCellsCounter: gridState.paintedCellsCounter });
   });
+
+  socket.on("resetBoard", () => {
+  gridState = resetGridState();
+  console.log("Broadcasting the resetBoard event");
+  io.emit("updateGridState", { cells: gridState.cells, paintedCellsCounter: gridState.paintedCellsCounter });
+});
+
 
   socket.on("disconnect", () => {
     console.log("A user disconnected: " + socket.id);
