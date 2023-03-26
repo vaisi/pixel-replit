@@ -1,10 +1,8 @@
-import { log } from "./utilities.js";
-// todo move to a common place
-const CELL_DEFAULT_COLOR = 'rgb(25, 26, 27)';
+import { log, CELL_DEFAULT_COLOR } from "./utilities.js";
 
+export let selectedColor;
 
 const grid = document.getElementById("grid");
-const output = document.getElementById("output");
 
 const ROWS = 8;
 const COLS = 8;
@@ -24,8 +22,6 @@ for (let row = 0; row < ROWS; row++) {
   }
 }
 
-const cells = document.querySelectorAll(".cell");
-
 // Function to generate a random neon color
 function randomNeonColor() {
   const h = Math.floor(Math.random() * 360);
@@ -37,7 +33,7 @@ function randomNeonColor() {
 // Create a color palette
 const colorPalette = document.createElement('div');
 colorPalette.className = 'color-palette';
-let selectedColor;
+
 
 // Generate a random neon color palette
 for (let i = 0; i < 6; i++) {
@@ -63,92 +59,3 @@ for (let i = 0; i < 6; i++) {
 
 const colorPaletteContainer = document.querySelector('.color-palette-container');
 colorPaletteContainer.appendChild(colorPalette);
-
-const paintPixelBtn = document.getElementById('paint-pixel-btn');
-
-// Add click event listener to each cell
-cells.forEach((cell) => {
-  cell.addEventListener("click", () => {
-    const selectedCell = document.querySelector(".glow");
-    if (selectedCell) {
-      selectedCell.classList.remove("glow");
-      selectedCell.style.border = ''; // Remove the glowing border from the previous selected cell
-    }
-
-    // Add a glowing border to the selected cell
-    cell.classList.add("glow");
-    cell.style.border = '2px solid #FFC107';
-    // if already painted, disable painting
-    if (cell.style.backgroundColor === CELL_DEFAULT_COLOR){    
-      paintPixelBtn.disabled = false;
-    }
-    else{
-      paintPixelBtn.disabled = true;
-    }
-  });
-});
-
-
-let socketConnected = false;
-const socket = io();
-
-socket.on("connect", () => {
-  socketConnected = true;
-});
-
-// Add click event listener to the "Paint pixel" button
-paintPixelBtn.addEventListener("click", () => {
-  const selectedCell = document.querySelector(".glow");
-  if (selectedCell) {
-    
-    //selectedCell.classList.remove("glow");
-    selectedCell.style.backgroundColor = selectedColor;
-    //selectedCell.style.border = '';
-    paintPixelBtn.disabled = true;    
-
-    const index = Array.from(cells).indexOf(selectedCell);
-    if (socketConnected) {
-      socket.emit("paint", { index, color: selectedColor });
-    }
-  }
-});
-
-
-socket.on("updateGridState", (serverGridState) => {
-  log("Server updated the grid state");
-  if (!serverGridState) {
-    log("Invalid input: serverGridState");
-  }
-
-  updateGrid(serverGridState.cells);
-  updatePaintedCellsCount(serverGridState.paintedCellsCounter);
-});
-
-socket.on("paint", (data) => {
-  log("A user painted a pixel: " + socket.id + " " + data.index + " " + data.color);
-  cells[data.index].style.backgroundColor = data.color;
-  updatePaintedCellsCount(data.paintedCellsCounter);
-});
-
-
-function updateGrid(updatedCells) {
-  if (!updatedCells) {
-    log("Invalid input: cells array is missing");
-    return;
-  }
-
-  const cells = document.querySelectorAll(".cell");
-  if(!cells){
-    log("Invalid state: client grid cells not initialized");
-  }
-    
-  for (let i = 0; i < updatedCells.length; i++) {
-    if (updatedCells[i]) {
-      cells[i].style.backgroundColor = updatedCells[i];
-    }
-  }
-};
-
-function updatePaintedCellsCount(counter) {
-  document.getElementById('painted-cells-count').innerText = `Painted cells: ${counter}`;
-};

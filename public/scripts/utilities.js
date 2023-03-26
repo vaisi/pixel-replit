@@ -10,6 +10,7 @@ const { Algodv2, kmd } = algosdk;
 export const algodClient = new algosdk.Algodv2(token, baseServer, port);
 export let indexerClient = new algosdk.Indexer(token, baseServer, port);
 
+export const CELL_DEFAULT_COLOR = 'rgb(25, 26, 27)';
 
 
 // Function for logging output to the text box
@@ -18,6 +19,7 @@ export const log = (...messages) => {
   for (let i = 0; i < messages.length; i++) {
     message += messages[i] + ' ';
   }
+  // const output = document.getElementById("output");
   document.getElementById('output').value += message.trim() + '\n';
 };
 
