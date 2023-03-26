@@ -53,14 +53,13 @@
   border: 2px solid white;
 }
 
-
 #paint-pixel-btn {
   display: block;
   margin: 10px auto;
   padding: 10px 20px;
   font-size: 16px;
   background-color: #191a1b;
-  color: white;
+  color: var(--neon-green);
   border: 2px solid #ffff66;
   cursor: pointer;
   transition: all 0.3s;
@@ -80,24 +79,4 @@
 
 #paint-pixel-btn:enabled {
   opacity: 1;
-}
-
-#output {
-  background-color: transparent;
-  color: hsl(120, 100%, 50%);
-  margin: 10px 0 10px 10px;
-  padding: 10px;
-  border: 2px solid hsl(120, 100%, 50%);
-  border-radius: 5px;
-  overflow-y: scroll;
-  height: 100px;
-}
-
-#output::-webkit-scrollbar {
-  width: 10px;
-  background-color: transparent;
-}
-
-#output::-webkit-scrollbar-thumb {
-  background-color: hsl(120, 100%, 50%);
 }

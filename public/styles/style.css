@@ -1,11 +1,23 @@
+:root {
+  --neon-green: #00FFAA;
+}
+
 body {
   background-color: #0b0b0d;
-  color: #fff;
+  color: solid var(--neon-green);
   font-family: sans-serif;
   text-align: center;
   margin: 0;
   padding: 0;
 }
+
+
+h1 {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  color: var(--neon-green);
+}
+
 
 .container {
   margin-top: 2em;
@@ -21,13 +33,8 @@ body {
   border: none;
   border-radius: 0.5em;
   background-color: #191a1b;
-  color: #fff;
+  color: var(--neon-green);
   font-size: 1em;
-}
-
-#counter {
-  margin-top: 1em;
-  font-size: 1.2em;
 }
 
 button {
@@ -36,7 +43,7 @@ button {
   border: none;
   border-radius: 0.5em;
   background-color: #191a1b;
-  color: #fff;
+  color: var(--neon-green);
   font-size: 1em;
   cursor: pointer;
 }
@@ -65,9 +72,29 @@ button:hover {
   margin-top: 1em;
 }
 
-h1 {
-  padding-top: 80px;
-  padding-bottom: 80px;
+#painted-cells-count {
+  color: var(--neon-green);
 }
 
+#output {
+  background-color: transparent;
+  color:var(--neon-green);  
+  padding: 10px;
+  border: 2px solidvar(--neon-green);
+  border-radius: 5px;
+  overflow-y: scroll;
+  margin: 20px auto;
+  display: block;  
+  width: 60%;
+  height: 100px;
+  text-align: center;
+}
 
+#output::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+#output::-webkit-scrollbar-thumb {
+  background-color: var(--neon-green);
+}
